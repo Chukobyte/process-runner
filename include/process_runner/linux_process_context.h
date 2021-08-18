@@ -14,9 +14,9 @@ class ProcessContext {
 
   public:
     void Start(const std::string &processPath, const std::string &startArgs) {
-        if (IsRunning()) {
-            return;
-        }
+//        if (IsRunning()) {
+//            return;
+//        }
         pid = fork();
         if (pid < 0) {
             std::cout << "Error creating fork!" << std::endl;
@@ -24,7 +24,7 @@ class ProcessContext {
             std::cout << "In parent process!" << std::endl;
         } else {
             std::cout << "Executing child process!" << std::endl;
-            int result = execl(processPath.c_str(), 0, 0);
+            int result = execl(processPath.c_str(), processPath.c_str(), nullptr);
             std::cout << "Start result = " << result << std::endl;
         }
     }
