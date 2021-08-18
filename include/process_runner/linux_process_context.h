@@ -18,7 +18,7 @@ class ProcessContext {
             return {};
         }
         std::vector<std::string> splitStrings;
-        string temp = "";
+        std::string temp = "";
         for(char i : s) {
             if(i==' ') {
                 splitStrings.push_back(temp);
