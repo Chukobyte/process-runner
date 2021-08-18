@@ -34,13 +34,11 @@ class ProcessContext {
         if (!IsRunning()) {
             return;
         }
-        int status;
-        kill(pid, &status);
+        kill(pid, SIGUSR1);
     }
 
     bool IsRunning() const {
         int status;
-
         waitpid(pid, &status, 0);
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
             std::cout << "Process terminated!" << std::endl;
