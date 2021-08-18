@@ -41,7 +41,11 @@ clean:
 ifneq ("$(wildcard $(BUILD_OBJECT))","")
 	$(DELETE_CMD) $(BUILD_OBJECT)
 endif
+ifeq ($(OS_TYPE),windows)
 	$(foreach object, $(OBJ), @$(DELETE_CMD) $(subst /,\, $(object));)
+else
+	$(foreach object, $(OBJ), @$(DELETE_CMD) $(object);)
+endif
 
 run:
 	./$(BUILD_OBJECT)
