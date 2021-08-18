@@ -28,4 +28,18 @@ Simply checks if the process is running.
 
 ## Example
 
-There is an example in [main.cpp](https://github.com/Chukobyte/process-runner/tree/main/src/main.cpp) 
+```c++
+ProcessRunner processRunner;
+processRunner.StartProccess("C:\\projects\\game.exe", "-log-level DEBUG");
+std::cout << "Process has started!" << std::endl;
+
+while (processRunner.IsProcessRunning()) {
+    if (HasPressedESCKey()) { // Function to check if ESC is pressed
+        processRunner.StopProcess();
+    }
+}
+
+std::cout << "Process has stopped!" << std::endl;
+```
+
+There is also an example in [main.cpp](https://github.com/Chukobyte/process-runner/tree/main/src/main.cpp).

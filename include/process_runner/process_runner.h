@@ -25,9 +25,8 @@ class ProcessRunner {
         if (DoesFileExist(processPath)) {
             processContext.Start(processPath, startArgs);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     void StopProcess() {
