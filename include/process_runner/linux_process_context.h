@@ -37,7 +37,7 @@ class ProcessContext {
     }
 
     bool IsRunning() const {
-        if (0 == kill(pid, 0)) {
+        if (kill(pid, 0) == 0) {
             return true;
         }
         return false;
