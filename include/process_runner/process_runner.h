@@ -17,7 +17,7 @@ class ProcessRunner {
     ProcessContext processContext;
 
     static bool DoesFileExist(const std::string &fileName) {
-        struct stat buffer;
+        struct stat buffer {};
         return(stat(fileName.c_str(), &buffer) == 0);
     }
   public:

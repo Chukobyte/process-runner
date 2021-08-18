@@ -18,15 +18,13 @@ class ProcessContext {
             return;
         }
         pid = fork();
-        switch(pid) {
-        case -1:
+        if (pid < 0) {
             std::cout << "Error creating fork!" << std::endl;
-            break;
-        case 0:
+        } else if(pid > 0) {
+            std::cout << "In parent process!" << std::endl;
+        } else {
+            std::cout << "Executing child process!" << std::endl;
             execl(processPath.c_str(), 0, 0);
-            break;
-        default:
-            break;
         }
     }
 
