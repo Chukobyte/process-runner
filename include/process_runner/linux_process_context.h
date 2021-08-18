@@ -13,22 +13,10 @@ class ProcessContext {
   private:
     pid_t pid;
 
-    static std::vector<std::string> SplitString(const std::string s) {
-        if (s.empty()) {
-            return {};
-        }
-        std::vector<std::string> splitStrings;
-        std::string temp = "";
-        for(char i : s) {
-            if(i==' ') {
-                splitStrings.push_back(temp);
-                temp = "";
-            } else {
-                temp.push_back(i);
-            }
-        }
-        splitStrings.push_back(temp);
-        return splitStrings;
+    static char *ConvertStringToChar(const std::string & s) {
+        char *pc = new char[s.size()+1];
+        std::strcpy(pc, s.c_str());
+        return pc;
     }
 
   public:
@@ -42,14 +30,8 @@ class ProcessContext {
         } else if(pid > 0) {
 //            std::cout << "In parent process!" << std::endl;
         } else {
-            std::vector<std::string> stringArgs = SplitString(startArgs);
-            int argsSize = 2 + stringArgs.size();
-            char *args[argsSize] = {};
-            args[0] = processPath.c_str();
-            for (int i = 0; i < stringArgs.size() < i++) {
-                args[i + 1] = stringArgs[i];
-            }
-            args[argsSize - 1] = nullptr;
+            const std::string fullStartArgs = startArgs.empty() ? processPath : processPath + " " + startArgs;
+            char *args[] = ConvertStringToChar(fullStartArgs);
             execv(processPath.c_str(), args);
 //            char *args[] = {processPath.c_str(), "-lh", "/home", nullptr};
 //            execl(processPath.c_str(), processPath.c_str(), nullptr);

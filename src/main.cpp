@@ -3,6 +3,8 @@
 #include "process_runner/process_runner.h"
 
 int main(int argv, char** args) {
+    char *argsTest[] = {"program", "-lh", "/home", NULL};
+    std::cout << "args = " << argsTest[0] << std::endl;
     ProcessRunner processRunner;
 
     std::cout << "Type name of process path:" << std::endl;
