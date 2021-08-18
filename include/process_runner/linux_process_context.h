@@ -12,6 +12,24 @@ class ProcessContext {
   private:
     pid_t pid;
 
+    static std::vector<std::string> SplitString(const std::string s) {
+        if (s.empty()) {
+            return {};
+        }
+        std::vector<std::string> splitStrings;
+        string temp = "";
+        for(char i : s) {
+            if(i==' ') {
+                splitStrings.push_back(temp);
+                temp = "";
+            } else {
+                temp.push_back(i);
+            }
+        }
+        splitStrings.push_back(temp);
+        return splitStrings;
+    }
+
   public:
     void Start(const std::string &processPath, const std::string &startArgs) {
         if (IsRunning()) {
@@ -19,13 +37,21 @@ class ProcessContext {
         }
         pid = fork();
         if (pid < 0) {
-            std::cout << "Error creating fork!" << std::endl;
+            std::cerr << "Error creating fork!" << std::endl;
         } else if(pid > 0) {
-            std::cout << "In parent process!" << std::endl;
+//            std::cout << "In parent process!" << std::endl;
         } else {
-            std::cout << "Executing child process!" << std::endl;
-            int result = execl(processPath.c_str(), processPath.c_str(), nullptr);
-            std::cout << "Start result = " << result << std::endl;
+            std::vector<std::string> stringArgs = SplitString(startArgs);
+            int argsSize = 2 + stringArgs.size();
+            char *args[argsSize] = {};
+            args[0] = processPath.c_str();
+            for (int i = 0; i < stringArgs.size() < i++) {
+                args[i + 1] = stringArgs[i];
+            }
+            args[argsSize - 1] = nullptr;
+            execv(processPath.c_str(), args);
+//            char *args[] = {processPath.c_str(), "-lh", "/home", nullptr};
+//            execl(processPath.c_str(), processPath.c_str(), nullptr);
         }
     }
 
