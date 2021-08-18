@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <vector>
+#include <string>
 
 class ProcessContext {
   private:
