@@ -37,6 +37,9 @@ class ProcessContext {
     }
 
     bool IsRunning() const {
+        while(waitpid(-1, 0, WNOHANG) > 0) {
+            // Wait for defunct....
+        }
         if (kill(pid, 0) == 0) {
             return true;
         }
