@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <csignal.h>
+#include <signal.h>
 #include <sys/types.h>
-#include <cstdlib.h>
+#include <stdlib.h>
 #include <sys/wait.h>
 
 class ProcessContext {
