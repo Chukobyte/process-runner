@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <vector>
-#include <string>
+#include <cstring>
 
 class ProcessContext {
   private:
@@ -32,7 +32,7 @@ class ProcessContext {
 //            std::cout << "In parent process!" << std::endl;
         } else {
             const std::string fullStartArgs = startArgs.empty() ? processPath : processPath + " " + startArgs;
-            char *args[] = ConvertStringToChar(fullStartArgs);
+            char *args[fullStartArgs.size()] = ConvertStringToChar(fullStartArgs);
             execv(processPath.c_str(), args);
 //            char *args[] = {processPath.c_str(), "-lh", "/home", nullptr};
 //            execl(processPath.c_str(), processPath.c_str(), nullptr);
