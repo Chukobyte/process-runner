@@ -14,9 +14,9 @@ class ProcessContext {
 
   public:
     void Start(const std::string &processPath, const std::string &startArgs) {
-//        if (IsRunning()) {
-//            return;
-//        }
+        if (IsRunning()) {
+            return;
+        }
         pid = fork();
         if (pid < 0) {
             std::cout << "Error creating fork!" << std::endl;
@@ -37,13 +37,10 @@ class ProcessContext {
     }
 
     bool IsRunning() const {
-        int status;
-        waitpid(pid, &status, 0);
-        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-            std::cout << "Process terminated!" << std::endl;
-            return false;
+        if (0 == kill(pid, 0)) {
+            return true;
         }
-        return true;
+        return false;
     }
 };
 
