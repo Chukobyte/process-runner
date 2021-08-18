@@ -14,10 +14,6 @@ class ProcessContext {
     std::ifstream stdOutInputStream = nullptr;
 
   public:
-    ProcessContext() {
-        // std::cout << "Windows process context" << std::endl;
-    }
-
     void Start(const std::string &processPath, const std::string &startArgs) {
         if (IsRunning()) {
             return;
