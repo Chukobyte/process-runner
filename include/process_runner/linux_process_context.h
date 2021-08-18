@@ -24,7 +24,8 @@ class ProcessContext {
             std::cout << "In parent process!" << std::endl;
         } else {
             std::cout << "Executing child process!" << std::endl;
-            execl(processPath.c_str(), 0, 0);
+            int result = execl(processPath.c_str(), 0, 0);
+            std::cout << "Start result = " << result << std::endl;
         }
     }
 
