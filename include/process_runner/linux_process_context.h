@@ -15,12 +15,6 @@ class ProcessContext {
   private:
     pid_t pid;
 
-    static char *ConvertStringToChar(const std::string & s) {
-        char *pc = new char[s.size()+1];
-        std::strcpy(pc, s.c_str());
-        return pc;
-    }
-
     static std::vector<std::string> SplitString(const std::string s) {
         if (s.empty()) {
             return {};
@@ -39,6 +33,19 @@ class ProcessContext {
         return splitStrings;
     }
 
+    char** GetFullArgs(const std::string &processPath, const std::string &startArgs) {
+        const std::string fullStartArgs = startArgs.empty() ? processPath : processPath + " " + startArgs;
+        std::vector<std::string> splitStringArgs = SplitString(fullStartArgs);
+        std::vector<char*> vec;
+        std::transform(splitStringArgs.begin(), splitStringArgs.end(), std::back_inserter(vec),
+        [](std::string &s) {
+            s.push_back(0);
+            return &s[0];
+        });
+        vec.push_back(nullptr);
+        return vec.data();
+    }
+
   public:
     void Start(const std::string &processPath, const std::string &startArgs) {
         if (IsRunning()) {
@@ -48,22 +55,10 @@ class ProcessContext {
         if (pid < 0) {
             std::cerr << "Error creating fork!" << std::endl;
         } else if(pid > 0) {
-            //            std::cout << "In parent process!" << std::endl;
+//            std::cout << "In parent process!" << std::endl;
         } else {
-            const std::string fullStartArgs = startArgs.empty() ? processPath : processPath + " " + startArgs;
-            std::vector<std::string> splitStringArgs = SplitString(fullStartArgs);
-            std::vector<char*> vec;
-            std::transform(splitStringArgs.begin(), splitStringArgs.end(), std::back_inserter(vec),
-            [](std::string &s) {
-                s.push_back(0);
-                return &s[0];
-            });
-            vec.push_back(nullptr);
-            char** args = vec.data();
+            char** args = GetFullArgs(processPath, startArgs);
             execv(processPath.c_str(), args);
-//            char *args[fullStartArgs.size()] = ConvertStringToChar(fullStartArgs);
-            //            char *args[] = {processPath.c_str(), "-lh", "/home", nullptr};
-            //            execl(processPath.c_str(), processPath.c_str(), nullptr);
         }
     }
 
