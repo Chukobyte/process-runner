@@ -1,2 +1,6 @@
 *.o
 *.exe
+process_runner_test
+
+.idea
+temp
